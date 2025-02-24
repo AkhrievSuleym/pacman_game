@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pacman_game/presentation/pages/levels_page.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -30,7 +31,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
           OutlinedButton(
             onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const SizedBox())),
+                MaterialPageRoute(builder: (context) => const LevelsPage())),
             style: OutlinedButton.styleFrom(
               backgroundColor: const Color.fromARGB(255, 65, 64, 64),
               shape: const RoundedRectangleBorder(
