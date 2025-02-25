@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 3),
+      const Duration(seconds: 1),
       () => Navigator.of(context).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {

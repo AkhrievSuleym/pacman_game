@@ -64,6 +64,7 @@ flutter:
     - assets/image/pacman.png
     - assets/image/ghost.png
     - assets/image/pacman_game.png
+
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
