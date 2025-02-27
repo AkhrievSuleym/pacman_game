@@ -17,8 +17,6 @@ class FirstLevelWidget extends StatefulWidget {
 
 class _FirstLevelWidgetState extends State<FirstLevelWidget> {
   late GameController gameController;
-  Logger logger = Logger();
-  bool hasPrinted = false;
 
   @override
   void initState() {
