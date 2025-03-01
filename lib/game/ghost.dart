@@ -6,14 +6,10 @@ class Ghost {
   final int numberInRow;
 
   Ghost({
-    this.position = 20,
+    required this.position,
     required this.barriers,
     required this.numberInRow,
   });
-
-  void reset() {
-    position = 20; // Начальная позиция призрака
-  }
 
   void move(int playerPosition) {
     // Определяем направление к Пакману
