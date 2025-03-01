@@ -14,3 +14,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Dependencies
+<details>
+     <summary> Click to expand </summary>
+     
+* [cupertino_icons](https://pub.dev/packages/cupertino_icons)
+* [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter)
+* [logger](https://pub.dev/packages/logger)
+
+  </details>
