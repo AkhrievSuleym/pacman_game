@@ -8,11 +8,10 @@ import 'package:pacman_game/presentation/widgets/player_widget.dart';
 import 'package:pacman_game/presentation/widgets/player_path_widget.dart';
 
 class LevelWidget extends StatefulWidget {
-  final String levelNumber;
+  final int levelNumber;
   final int ghostsCount;
   final int ghostsSpeed;
   final List<int> barriers;
-  final VoidCallback onLevelCompleted;
 
   const LevelWidget({
     super.key,
@@ -20,7 +19,6 @@ class LevelWidget extends StatefulWidget {
     required this.ghostsCount,
     required this.ghostsSpeed,
     required this.barriers,
-    required this.onLevelCompleted,
   });
 
   @override
@@ -45,31 +43,137 @@ class _LevelWidgetState extends State<LevelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          _levelNumberWidget(widget.levelNumber),
-          gameController.isGameOver && gameController.isGameStarted
-              ? _buildGameOverWidget(
-                  gameController, widget.ghostsCount, widget.ghostsSpeed)
-              : gameController.gameState.score == gameController.endGameScore &&
-                      gameController.isGameStarted
-                  ? _buildGameWinWidget(context, widget.onLevelCompleted)
-                  : _buildGamePlayWidget(gameController),
-          _playingField(
-              gameController, context, widget.ghostsCount, widget.ghostsSpeed),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        // Обработка нажатия кнопки "Назад"
+        if (gameController.isGameStarted) {
+          // Если игра началась, остановите ее
+          gameController.stopGame();
+          return true; // Разрешить выход из виджета
+        } else {
+          // Если игра не началась, вернитесь на предыдущую страницу
+          Navigator.of(context).pop();
+          return false; // Запретить выход из виджета
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Column(
+          children: [
+            _levelNumberWidget(widget.levelNumber),
+            gameController.isGameOver && gameController.isGameStarted
+                ? _buildGameOverWidget(
+                    gameController, widget.ghostsCount, widget.ghostsSpeed)
+                : gameController.gameState.score ==
+                            gameController.endGameScore &&
+                        gameController.isGameStarted
+                    ? _buildGameWinWidget(context)
+                    : _buildGamePlayWidget(gameController),
+            _playingField(gameController, context, widget.ghostsCount,
+                widget.ghostsSpeed),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGameWinWidget(BuildContext context) {
+    return Expanded(
+      flex: 8,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 220,
+              height: 100,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.lightGreen, Colors.green],
+                ),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(30),
+                  child: const Center(
+                    child: Text(
+                      "You win!",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              width: 130,
+              height: 50,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color.fromARGB(255, 69, 196, 255),
+                    Color.fromARGB(255, 0, 96, 175)
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => {
+                    Navigator.pop(context),
+                  },
+                  borderRadius: BorderRadius.circular(30),
+                  child: const Center(
+                    child: Text(
+                      "Levels page",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget _levelNumberWidget(String levelNumber) {
+Widget _levelNumberWidget(int levelNumber) {
   return Padding(
     padding: const EdgeInsets.only(top: 30),
     child: Text(
-      levelNumber,
+      "Level $levelNumber",
       style: AppTextStyles.heading,
     ),
   );
@@ -179,99 +283,6 @@ Widget _buildGameOverWidget(
   );
 }
 
-Widget _buildGameWinWidget(
-    BuildContext context, VoidCallback onLevelCompleted) {
-  return Expanded(
-    flex: 8,
-    child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 220,
-            height: 100,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.lightGreen, Colors.green],
-              ),
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(30),
-                child: const Center(
-                  child: Text(
-                    "You win!",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 15),
-          Container(
-            width: 130,
-            height: 50,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 69, 196, 255),
-                  Color.fromARGB(255, 0, 96, 175)
-                ],
-              ),
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () => {
-                  onLevelCompleted(),
-                  Navigator.pop(context),
-                },
-                borderRadius: BorderRadius.circular(30),
-                child: const Center(
-                  child: Text(
-                    "Levels page",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 Widget _buildGamePlayWidget(GameController gameController) {
   return Expanded(
     flex: 8,
@@ -333,13 +344,9 @@ Widget _buildGamePlayWidget(GameController gameController) {
               }
             } else if (gameController.ghosts
                 .any((ghost) => index == ghost.position)) {
-              return ColorFiltered(
-                colorFilter: const ColorFilter.mode(
-                  Colors.green,
-                  BlendMode.srcATop,
-                ),
-                child: Image.asset("assets/image/ghost.png"),
-              );
+              final ghost = gameController.ghosts
+                  .firstWhere((ghost) => index == ghost.position);
+              return Image.asset(ghost.imagePath);
             } else if (gameController.barriers.contains(index)) {
               return PixelWidget(
                 innerColor: Colors.blue[800],

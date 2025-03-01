@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pacman_game/barriers/levels_barriers.dart';
 import 'package:pacman_game/presentation/widgets/level_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstLevelPage extends StatefulWidget {
   const FirstLevelPage({super.key});
@@ -14,11 +13,10 @@ class _FirstLevelPageState extends State<FirstLevelPage> {
   @override
   Widget build(BuildContext context) {
     return LevelWidget(
-      levelNumber: "Level 1",
+      levelNumber: 1,
       ghostsCount: 1,
       ghostsSpeed: 600,
-      barriers: first_level_barriers,
-      onLevelCompleted: () {},
+      barriers: firstLevelBarriers,
     );
   }
 }

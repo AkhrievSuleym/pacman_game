@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pacman_game/presentation/pages/fifth_level_page.dart';
 import 'package:pacman_game/presentation/pages/first_level_page.dart';
+import 'package:pacman_game/presentation/pages/fourth_level_page.dart';
 import 'package:pacman_game/presentation/pages/second_level_page.dart';
+import 'package:pacman_game/presentation/pages/third_level_page.dart';
 import 'package:pacman_game/presentation/widgets/home_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LevelsWidget extends StatefulWidget {
   const LevelsWidget({super.key});
@@ -13,38 +15,6 @@ class LevelsWidget extends StatefulWidget {
 
 class _LevelsWidgetState extends State<LevelsWidget> {
   int lastCompletedLevel = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadLastCompletedLevel();
-  }
-
-  Future<void> _loadLastCompletedLevel() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      lastCompletedLevel = prefs.getInt('last_completed_level') ?? 0;
-      print("Last completed level: $lastCompletedLevel");
-    });
-  }
-
-  Future<void> _updateLastCompletedLevel(int level) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('last_completed_level', level);
-    setState(() {
-      lastCompletedLevel = level; // Обновляем состояние
-    });
-    print("Updated last completed level to: $level");
-  }
-
-  Future<void> _clearSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Удаляет все данные
-    setState(() {
-      lastCompletedLevel = 0; // Обновляем состояние, если нужно
-    });
-    print("SharedPreferences cleared");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +29,7 @@ class _LevelsWidgetState extends State<LevelsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/image/ghost.png',
+              'assets/image/ghost1.png',
               width: 42,
               height: 42,
             ),
@@ -78,9 +48,9 @@ class _LevelsWidgetState extends State<LevelsWidget> {
           ],
         ),
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const Center(
+          Center(
             child: Text(
               "Levels",
               style: AppTextStyles.heading,
@@ -91,21 +61,23 @@ class _LevelsWidgetState extends State<LevelsWidget> {
             children: [
               SquareButton(
                 number: '1',
-                nextPage: const FirstLevelPage(),
-                open_check: true,
-                onLevelCompleted: () => _updateLastCompletedLevel(1),
+                nextPage: FirstLevelPage(),
               ),
               SquareButton(
                 number: '2',
-                nextPage: const SecondLevelPage(),
-                open_check: lastCompletedLevel >= 1,
-                onLevelCompleted: () => _updateLastCompletedLevel(2),
+                nextPage: SecondLevelPage(),
               ),
               SquareButton(
                 number: '3',
-                nextPage: const Center(),
-                open_check: lastCompletedLevel >= 2,
-                onLevelCompleted: () => _updateLastCompletedLevel(3),
+                nextPage: ThirdLevelPage(),
+              ),
+              SquareButton(
+                number: '4',
+                nextPage: FourthLevelPage(),
+              ),
+              SquareButton(
+                number: '5',
+                nextPage: FifthLevelPage(),
               )
             ],
           )
@@ -118,29 +90,18 @@ class _LevelsWidgetState extends State<LevelsWidget> {
 class SquareButton extends StatelessWidget {
   final String number;
   final Widget nextPage;
-  final bool open_check;
-  final VoidCallback onLevelCompleted;
 
-  const SquareButton(
-      {required this.number,
-      required this.nextPage,
-      required this.open_check,
-      required this.onLevelCompleted});
+  const SquareButton({
+    required this.number,
+    required this.nextPage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (open_check) {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => nextPage))
-              .then((_) => onLevelCompleted());
-          ;
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('This block is blocked')),
-          );
-        }
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => nextPage));
       },
       child: Container(
         height: 50,
@@ -151,21 +112,13 @@ class SquareButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Center(
-          child: open_check
-              ? Text(
-                  number,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                  ),
-                )
-              : const Text(
-                  '🔒',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                  ),
-                ),
+          child: Text(
+            number,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24.0,
+            ),
+          ),
         ),
       ),
     );

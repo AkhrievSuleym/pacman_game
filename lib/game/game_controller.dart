@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:pacman_game/barriers/levels_barriers.dart';
 
 import 'game_state.dart';
 import 'ghost.dart';
@@ -8,6 +7,13 @@ import 'ghost.dart';
 class GameController {
   late GameState gameState;
   final List<Ghost> ghosts = [];
+  List<String> ghostImagePaths = [
+    "assets/image/ghost1.png",
+    "assets/image/ghost2.jpg",
+    "assets/image/ghost3.jpg",
+    "assets/image/ghost4.jpg",
+  ];
+
   final Function updateUI;
 
   int endGameScore = 0;
@@ -28,6 +34,14 @@ class GameController {
     gameState = GameState(barriers: barriers);
   }
 
+  void stopGame() {
+    gameTimer?.cancel();
+    ghostTimer?.cancel();
+    isGameOver = true;
+    isGameStarted = false;
+    updateUI();
+  }
+
   void startGame(int numberOfGhosts, int ghostsSpeed) {
     gameTimer?.cancel();
     ghostTimer?.cancel();
@@ -38,8 +52,11 @@ class GameController {
     // Инициализация призраков в зависимости от уровня
     for (int i = 0; i < numberOfGhosts; i++) {
       int ghostPosition = generateRandomPosition(barriers, 11);
-      ghosts.add(
-          Ghost(position: ghostPosition, barriers: barriers, numberInRow: 11));
+      ghosts.add(Ghost(
+          position: ghostPosition,
+          barriers: barriers,
+          numberInRow: 11,
+          imagePath: ghostImagePaths[i]));
     }
 
     endGameScore = gameState.food.length;
@@ -147,13 +164,23 @@ class GameController {
 
   void _moveUp() {
     if (!gameState.barriers.contains(gameState.playerPosition - 11)) {
-      gameState.playerPosition -= 11;
+      if (gameState.playerPosition - 11 == 5) {
+        gameState.playerPosition = 181;
+        gameState.food.remove(5);
+        gameState.score++;
+      } else
+        gameState.playerPosition -= 11;
     }
   }
 
   void _moveDown() {
     if (!gameState.barriers.contains(gameState.playerPosition + 11)) {
-      gameState.playerPosition += 11;
+      if (gameState.playerPosition + 11 == 181) {
+        gameState.playerPosition = 5;
+        gameState.food.remove(181);
+        gameState.score++;
+      } else
+        gameState.playerPosition += 11;
     }
   }
 }

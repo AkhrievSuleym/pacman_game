@@ -4,11 +4,13 @@ class Ghost {
   int position;
   final List<int> barriers;
   final int numberInRow;
+  String imagePath;
 
   Ghost({
     required this.position,
     required this.barriers,
     required this.numberInRow,
+    required this.imagePath,
   });
 
   void move(int playerPosition) {
