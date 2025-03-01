@@ -27,16 +27,11 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Screenshots
 <p align="center">
-     <img src="![Screenshot_1740864516](https://github.com/user-attachments/assets/cc2c5c7d-a09e-43c6-ac4d-85acd26af872)
-" style="width: 200px; height: auto;">
-     <img src="![Screenshot_1740864513](https://github.com/user-attachments/assets/8a476f5c-45a1-48d2-bfce-5c3f5ba86904)
-" style="width: 200px; height: auto;">
-     <img src="![Screenshot_1740864443](https://github.com/user-attachments/assets/aa517d6b-5a6a-4c00-93c5-e1657d385972)
-"  style="width: 200px; height: auto;">
-     <img src="![Screenshot_1740864465](https://github.com/user-attachments/assets/c47d77ac-3b90-4024-8d74-7b9b583d5cb6)
-" style="width: 200px; height: auto;">
-     <img src="![Screenshot_1740864507](https://github.com/user-attachments/assets/2f3fc6ef-64f6-4d98-a743-7d171db83201)
-" style="width: 200px; height: auto;">
+     <img src="https://github.com/user-attachments/assets/cc2c5c7d-a09e-43c6-ac4d-85acd26af872" style="width: 200px; height: auto;">
+     <img src="https://github.com/user-attachments/assets/8a476f5c-45a1-48d2-bfce-5c3f5ba86904" style="width: 200px; height: auto;">
+     <img src="https://github.com/user-attachments/assets/aa517d6b-5a6a-4c00-93c5-e1657d385972"  style="width: 200px; height: auto;">
+     <img src="https://github.com/user-attachments/assets/c47d77ac-3b90-4024-8d74-7b9b583d5cb6" style="width: 200px; height: auto;">
+     <img src="https://github.com/user-attachments/assets/2f3fc6ef-64f6-4d98-a743-7d171db83201" style="width: 200px; height: auto;">
      
 
 </p>
