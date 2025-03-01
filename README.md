@@ -1,6 +1,6 @@
-# pacman_game
-
-A new Flutter project.
+# Pacman game
+My version of the Pacman game is a simple but fascinating implementation of the classic arcade game. It was created using Flutter, a cross-platform framework for developing mobile applications.
+My work started not so long ago, so all new levels and additional improvements are ahead.
 
 ## Getting Started
 
