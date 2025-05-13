@@ -14,9 +14,9 @@ class _SixthLevelPageState extends State<SixthLevelPage> {
   Widget build(BuildContext context) {
     return LevelWidget(
       levelNumber: 6,
-      ghostsCount: 1,
-      ghostsSpeed: 550,
-      barriers: fourthLevelBarriers,
+      ghostsCount: 2,
+      ghostsSpeed: 500,
+      barriers: sixthLevelBarriers,
     );
   }
 }
