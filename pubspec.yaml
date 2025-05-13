@@ -37,7 +37,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   font_awesome_flutter: ^10.8.0
   logger: ^2.5.0
-  shared_preferences: ^2.5.2
   
 
 dev_dependencies:
